@@ -1,12 +1,15 @@
+package com.yandex.app.model;
+
 public class Task {
     protected String name;
     protected String description;
     protected String status;
-    int id;
+    protected int id;
 
-    public Task(String name, String description){
+    public Task(String name, String description, String status){
         this.name = name;
         this.description = description;
+        this.status = status;
     }
 
     public int getId() {
@@ -27,7 +30,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "com.yandex.app.model.Task{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
