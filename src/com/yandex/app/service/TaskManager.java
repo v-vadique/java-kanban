@@ -13,28 +13,16 @@ public class TaskManager {
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
     int nextId = 1;
 
-    public HashMap<Integer, Task> getTasks() {
+    public HashMap<Integer, Task> getAllTasks() {
         return tasks;
     }
 
-    public HashMap<Integer, Epic> getEpics() {
+    public HashMap<Integer, Epic> getAllEpics() {
         return epics;
     }
 
-    public HashMap<Integer, Subtask> getSubtasks() {
+    public HashMap<Integer, Subtask> getAllSubtasks() {
         return subtasks;
-    }
-
-    public ArrayList<Task> printAllTasks() {
-        return new ArrayList<>(tasks.values());
-    }
-
-    public ArrayList<Epic> printAllEpics() {
-        return new ArrayList<>(epics.values());
-    }
-
-    public ArrayList<Subtask> printAllSubtasks() {
-        return new ArrayList<>(subtasks.values());
     }
 
     public void deleteAllTasks() {
@@ -103,7 +91,6 @@ public class TaskManager {
 
     public void updateEpic(Epic epic) {
         epics.put(epic.getId(), epic);
-        reconsiderEpicStatus(epic.getId());
         System.out.println("Эпик обновлен. Идентификатор " + epic.getId());
     }
 
@@ -113,7 +100,7 @@ public class TaskManager {
         System.out.println("Подзадача обновлена. Индентификатор " + subtask.getId());
     }
 
-    public void reconsiderEpicStatus(int id){
+    private void reconsiderEpicStatus(int id) {
         boolean isNew = true;
         boolean isDone = true;
         for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
