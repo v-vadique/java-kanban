@@ -22,10 +22,10 @@ public class Main {
         taskManager.createSubtask(new Subtask("Составить список", "Составить список продуктов",
                 "NEW", 6));
 
-        taskManager.getAllTasks().get(1).setStatus("DONE");
-        taskManager.updateTask(taskManager.getAllTasks().get(1));
-        taskManager.getAllSubtasks().get(7).setStatus("DONE");
-        taskManager.updateSubtask(taskManager.getAllSubtasks().get(7));
+        taskManager.getAllTasks().get(0).setStatus("DONE");
+        taskManager.updateTask(taskManager.getAllTasks().get(0));
+        taskManager.getAllSubtasks().get(2).setStatus("DONE");
+        taskManager.updateSubtask(taskManager.getAllSubtasks().get(2));
 
         taskManager.deleteTask(2);
         taskManager.deleteEpic(3);
