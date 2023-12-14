@@ -1,5 +1,7 @@
 package com.yandex.app.model;
 
+import com.yandex.app.service.StatusName;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -19,7 +21,7 @@ public class Epic extends Task {
 
     public void clearSubtaskIds() {
         subtaskIds.clear();
-        this.status = "NEW";
+        this.status = StatusName.NEW;
     }
     
     public void deleteSubtaskId(int id) {

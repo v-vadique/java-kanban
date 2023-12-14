@@ -1,9 +1,11 @@
 package com.yandex.app.model;
 
+import com.yandex.app.service.StatusName;
+
 public class Subtask extends Task {
     private int epicId;
 
-    public Subtask(String name, String description, String status, int epicId) {
+    public Subtask(String name, String description, StatusName status, int epicId) {
         super(name, description, status);
         this.epicId = epicId;
     }

@@ -1,33 +1,39 @@
 package com.yandex.app;
 
-import com.yandex.app.service.TaskManager;
+import com.yandex.app.service.*;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 
 public class Main {
     public static void main(String[] args) {
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Managers.getDefault();
+        HistoryManager historyManager = Managers.getDefaultHistory();
+
 
         taskManager.createTask(new Task("Сдать задание", "Отправить на ревью задание по 3 спринту",
-                "NEW"));
+                StatusName.NEW));
         taskManager.createTask(new Task("Доделать отчет", "Сформировать и отправить годовой отчет",
-                "NEW"));
+                StatusName.NEW));
         taskManager.createEpic(new Epic("Прибраться", "Навести порядок дома"));
-        taskManager.createSubtask(new Subtask("Вынести мусор", "Собрать и вынести мусор", "NEW",
+        taskManager.createSubtask(new Subtask("Вынести мусор", "Собрать и вынести мусор", StatusName.NEW,
                 3));
         taskManager.createSubtask(new Subtask("Собрать шерсть", "Найти и выкинуть кошачью шерсть",
-                "NEW", 3));
+                StatusName.NEW, 3));
         taskManager.createEpic(new Epic("Купить продукты", "Сходить в магазин за продуктами"));
         taskManager.createSubtask(new Subtask("Составить список", "Составить список продуктов",
-                "NEW", 6));
+                StatusName.NEW, 6));
 
-        taskManager.getAllTasks().get(0).setStatus("DONE");
-        taskManager.updateTask(taskManager.getAllTasks().get(0));
-        taskManager.getAllSubtasks().get(2).setStatus("DONE");
-        taskManager.updateSubtask(taskManager.getAllSubtasks().get(2));
+        taskManager.getTaskById(1);
 
-        taskManager.deleteTask(2);
-        taskManager.deleteEpic(3);
+        System.out.println(historyManager.getHistory());
+
+        taskManager.getSubtaskById(4);
+
+        System.out.println(historyManager.getHistory());
+
+        taskManager.getEpicById(6);
+
+        System.out.println(historyManager.getHistory());
     }
 }

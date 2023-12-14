@@ -1,12 +1,14 @@
 package com.yandex.app.model;
 
+import com.yandex.app.service.StatusName;
+
 public class Task {
     protected String name;
     protected String description;
-    protected String status;
+    protected StatusName status;
     protected int id;
 
-    public Task(String name, String description, String status){
+    public Task(String name, String description, StatusName status){
         this.name = name;
         this.description = description;
         this.status = status;
@@ -15,7 +17,7 @@ public class Task {
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = "NEW";
+        this.status = StatusName.NEW;
     }
 
     public int getId() {
@@ -26,11 +28,11 @@ public class Task {
         this.id = id;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusName status) {
         this.status = status;
     }
 
-    public String getStatus() {
+    public StatusName getStatus() {
         return status;
     }
 
