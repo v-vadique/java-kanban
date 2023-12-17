@@ -3,31 +3,32 @@ package com.yandex.app.service;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
-import com.yandex.app.service.StatusName;
+import com.yandex.app.model.StatusName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
-    int nextId = 1;
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Epic> epics = new HashMap<>();
+    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    private int nextId = 1;
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
-    public ArrayList<Task> getAllTasks() {
+    public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
 
     @Override
-    public ArrayList<Epic> getAllEpics() {
+    public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
     }
 
     @Override
-    public ArrayList<Subtask> getAllSubtasks() {
+    public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
 
@@ -126,7 +127,7 @@ public class InMemoryTaskManager implements TaskManager {
         boolean isNew = true;
         boolean isDone = true;
         for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
-            switch(subtasks.get(subtaskId).getStatus()){
+            switch (subtasks.get(subtaskId).getStatus()) {
                 case NEW:
                     isDone = false;
                     break;
@@ -171,11 +172,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Subtask> getAllEpicSubtasks(int id) {
+    public List<Subtask> getAllEpicSubtasks(int id) {
         ArrayList<Subtask> epicsSubtasks = new ArrayList<>();
         for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
             epicsSubtasks.add(subtasks.get(subtaskId));
         }
         return epicsSubtasks;
+    }
+
+    public List<Task> getHistory() {
+        return historyManager.getHistory();
     }
 }

@@ -1,14 +1,12 @@
 package com.yandex.app.model;
 
-import com.yandex.app.service.StatusName;
-
 public class Task {
     protected String name;
     protected String description;
     protected StatusName status;
     protected int id;
 
-    public Task(String name, String description, StatusName status){
+    public Task(String name, String description, StatusName status) {
         this.name = name;
         this.description = description;
         this.status = status;
