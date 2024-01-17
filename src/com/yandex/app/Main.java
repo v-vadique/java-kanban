@@ -19,20 +19,41 @@ public class Main {
                 3));
         taskManager.createSubtask(new Subtask("Собрать шерсть", "Найти и выкинуть кошачью шерсть",
                 StatusName.NEW, 3));
+        taskManager.createSubtask(new Subtask("Протереть пыль", "Осмотреть все горизонтальные поверхности",
+                StatusName.NEW, 3));
         taskManager.createEpic(new Epic("Купить продукты", "Сходить в магазин за продуктами"));
-        taskManager.createSubtask(new Subtask("Составить список", "Составить список продуктов",
-                StatusName.NEW, 6));
 
         taskManager.getTaskById(1);
 
-        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getHistory() + "\n");
 
         taskManager.getSubtaskById(4);
 
-        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getHistory() + "\n");
 
-        taskManager.getEpicById(6);
+        taskManager.getEpicById(7);
 
-        System.out.println(taskManager.getHistory());
+        System.out.println(taskManager.getHistory() + "\n");
+
+        taskManager.getSubtaskById(5);
+
+        System.out.println(taskManager.getHistory() + "\n");
+
+        taskManager.getTaskById(2);
+
+        System.out.println(taskManager.getHistory() + "\n");
+
+        taskManager.getTaskById(1);
+
+        System.out.println(taskManager.getHistory() + "\n");
+
+        taskManager.deleteTask(2);
+
+        System.out.println(taskManager.getHistory() + "\n");
+
+        taskManager.deleteEpic(3);
+
+        System.out.println(taskManager.getHistory() + "\n");
+
     }
 }
