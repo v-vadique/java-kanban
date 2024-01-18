@@ -1,13 +1,14 @@
-package com.yandex.app.service;
+package com.yandex.app.history;
 
 import com.yandex.app.model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final HashMap<Integer, Node<Task>> history = new HashMap<>();
+    private final Map<Integer, Node<Task>> history = new HashMap<>();
     private Node<Task> tail;
     private Node<Task> head;
 
@@ -29,13 +30,12 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public List<Task> getHistory() {                        // Кажется перемудрил
+    public List<Task> getHistory() {                        // спасибо за подсказку. Так и знал, что можно упростить
         List<Task> historyCopy = new ArrayList<>();
         Node<Task> task = head;
-        historyCopy.add(task.getData());
-        while (task.getNextNode() != null) {
-            task = task.getNextNode();
+        while (task != null) {
             historyCopy.add(task.getData());
+            task = task.getNextNode();
         }
         return historyCopy;
     }

@@ -1,4 +1,4 @@
-package com.yandex.app.service;
+package com.yandex.app.history;
 
 import com.yandex.app.model.Task;
 

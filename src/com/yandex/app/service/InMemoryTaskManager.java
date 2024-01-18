@@ -1,5 +1,6 @@
 package com.yandex.app.service;
 
+import com.yandex.app.history.HistoryManager;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
@@ -34,19 +35,31 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTasks() {
+        for (Integer key : tasks.keySet()) {
+            historyManager.remove(key);
+        }
         tasks.clear();
         System.out.println("Все задачи были удалены");
     }
 
     @Override
     public void deleteAllEpics() {
+        for (Integer key : epics.keySet()) {
+            historyManager.remove(key);
+        }
         epics.clear();
+        for (Integer key : subtasks.keySet()) {
+            historyManager.remove(key);
+        }
         subtasks.clear();
         System.out.println("Все эпики были удалены");
     }
 
     @Override
     public void deleteAllSubtasks() {
+        for (Integer key : subtasks.keySet()) {
+            historyManager.remove(key);
+        }
         subtasks.clear();
         for (Integer integer : epics.keySet()) {
             epics.get(integer).clearSubtaskIds();

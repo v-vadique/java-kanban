@@ -47,11 +47,11 @@ public class Main {
 
         System.out.println(taskManager.getHistory() + "\n");
 
-        taskManager.deleteTask(2);
+        taskManager.deleteAllSubtasks();
 
         System.out.println(taskManager.getHistory() + "\n");
 
-        taskManager.deleteEpic(3);
+        taskManager.deleteAllEpics();
 
         System.out.println(taskManager.getHistory() + "\n");
 
