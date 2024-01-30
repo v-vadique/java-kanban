@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subtaskIds = new ArrayList<>();
+    protected static TaskTypes type = TaskTypes.EPIC;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -25,6 +26,11 @@ public class Epic extends Task {
 
     public void deleteSubtaskId(int id) {
         subtaskIds.remove(id);
+    }
+
+    @Override
+    public String getType() {
+        return type + "";
     }
 
     @Override

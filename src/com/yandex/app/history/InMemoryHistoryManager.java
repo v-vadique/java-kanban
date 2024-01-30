@@ -24,13 +24,13 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        if (history.containsKey(id)) {
+        if (history.containsKey(id) && history.size() > 1) {
             removeNode(history.get(id));
         }
     }
 
     @Override
-    public List<Task> getHistory() {                        // спасибо за подсказку. Так и знал, что можно упростить
+    public List<Task> getHistory() {
         List<Task> historyCopy = new ArrayList<>();
         Node<Task> task = head;
         while (task != null) {

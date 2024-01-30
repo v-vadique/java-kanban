@@ -6,6 +6,8 @@ public class Task {
     protected StatusName status;
     protected int id;
 
+    protected static TaskTypes type = TaskTypes.TASK;
+
     public Task(String name, String description, StatusName status) {
         this.name = name;
         this.description = description;
@@ -32,6 +34,18 @@ public class Task {
 
     public StatusName getStatus() {
         return status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getType() {
+        return type + "";
     }
 
     @Override
