@@ -35,12 +35,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return "com.yandex.app.model.Epic{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", id=" + id +
-                ", subtaskIds=" + subtaskIds.size() +
-                '}';
+        return getId() + "," + getType() + "," + getName() + "," + getStatus() + ","
+                + getDescription() + ",";
     }
 }

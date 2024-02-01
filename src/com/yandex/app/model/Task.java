@@ -50,11 +50,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "com.yandex.app.model.Task{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", status='" + status + '\'' +
-                ", id=" + id +
-                '}';
+        return getId() + "," + getType() + "," + getName() + "," + getStatus() + ","
+                + getDescription() + ",";
     }
 }
