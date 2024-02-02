@@ -8,26 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    public static void main(String[] args) {
-        File file = new File("data.csv");
-        FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
-
-        fileBackedTasksManager.createTask(new Task("имя1", "описание1"));
-        fileBackedTasksManager.createTask(new Task("имя2", "описание2"));
-        fileBackedTasksManager.createEpic(new Epic("имя3", "описание3"));
-        fileBackedTasksManager.createSubtask(new Subtask("имя4", "описание4", StatusName.NEW, 3));
-
-        fileBackedTasksManager.getTaskById(2);
-        fileBackedTasksManager.getSubtaskById(4);
-        fileBackedTasksManager.getEpicById(3);
-
-        FileBackedTasksManager fileBackedTasksManager2 = loadFromFile(file);
-        System.out.println(fileBackedTasksManager2.getAllTasks());
-        System.out.println(fileBackedTasksManager2.getAllEpics());
-        System.out.println(fileBackedTasksManager2.getAllSubtasks());
-        System.out.println(fileBackedTasksManager2.getHistory());
-    }
-
     private void save() throws ManagerSaveException {
         List<String> saveString = new ArrayList<>();
         saveString.add("id,type,name,status,description,epic");
@@ -53,7 +33,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
     }
 
-    private static FileBackedTasksManager loadFromFile(File file) throws ManagerSaveException {
+    public static FileBackedTasksManager loadFromFile(File file) throws ManagerSaveException {
         FileBackedTasksManager fileBackedTasksManager = Managers.getFileBackedTasksManager();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String[] lines;
@@ -109,7 +89,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private static String historyToString(HistoryManager manager) {
         StringBuilder history = new StringBuilder();
         for (Task task : manager.getHistory()) {
-            history.append(task.getId() + ",");
+            history.append(task.getId()).append(",");
         }
         return history.substring(0, history.length() - 1);
     }
