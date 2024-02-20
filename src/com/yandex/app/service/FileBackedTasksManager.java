@@ -58,14 +58,16 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                         break;
                 }
             }
-            List<Integer> historyIds = historyFromString(reader.readLine());
-            for (Integer id : historyIds) {
-                if (fileBackedTasksManager.tasks.containsKey(id)) {
-                    fileBackedTasksManager.historyManager.add(fileBackedTasksManager.tasks.get(id));
-                } else if (fileBackedTasksManager.epics.containsKey(id)) {
-                    fileBackedTasksManager.historyManager.add(fileBackedTasksManager.epics.get(id));
-                } else {
-                    fileBackedTasksManager.historyManager.add(fileBackedTasksManager.subtasks.get(id));
+            if (reader.ready()) {
+                List<Integer> historyIds = historyFromString(reader.readLine());
+                for (Integer id : historyIds) {
+                    if (fileBackedTasksManager.tasks.containsKey(id)) {
+                        fileBackedTasksManager.historyManager.add(fileBackedTasksManager.tasks.get(id));
+                    } else if (fileBackedTasksManager.epics.containsKey(id)) {
+                        fileBackedTasksManager.historyManager.add(fileBackedTasksManager.epics.get(id));
+                    } else {
+                        fileBackedTasksManager.historyManager.add(fileBackedTasksManager.subtasks.get(id));
+                    }
                 }
             }
             fileBackedTasksManager.save();

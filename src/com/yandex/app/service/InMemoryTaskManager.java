@@ -184,8 +184,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void countEpicTime(int id) {
-        LocalDateTime startTime = null;
-        LocalDateTime endTime = null;
+        LocalDateTime startTime = epics.get(id).getStartTime();
+        LocalDateTime endTime = epics.get(id).getEndTime();
         Duration duration = Duration.ofMinutes(0);
         for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
             if (startTime == null || startTime.isAfter(subtasks.get(subtaskId).getStartTime())) {
@@ -208,8 +208,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTask(int id) {
         historyManager.remove(id);
-        tasks.remove(id);
         prioritizedTasks.remove(tasks.get(id));
+        tasks.remove(id);
         System.out.println("Задача была удалена");
     }
 

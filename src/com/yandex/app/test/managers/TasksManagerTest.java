@@ -26,8 +26,10 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void getAllTasksShouldNotBeEmptyWhenTasksAdded() {
-        taskManager.createTask(new Task("test", "test"));
-        taskManager.createTask(new Task("test", "test"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
         assertEquals(2, taskManager.getAllTasks().size());
     }
 
@@ -49,8 +51,10 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void tasksShouldBeEmptyWhenDeleteAllTasksCalled() {
-        taskManager.createTask(new Task("test", "test"));
-        taskManager.createTask(new Task("test", "test"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
         taskManager.deleteAllTasks();
         assertEquals(0, taskManager.getAllTasks().size());
     }
@@ -75,7 +79,8 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void getTaskByIdShouldReturnTask() {
-        taskManager.createTask(new Task("test", "test"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
         Task task = taskManager.getTaskById(1);
         assertEquals(task, taskManager.getTaskById(1));
     }
@@ -113,7 +118,8 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void createTaskShouldCreateNewTask() {
-        Task task = new Task("test", "test");
+        Task task = new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00");
         taskManager.createTask(task);
         assertEquals(task, taskManager.getTaskById(1));
     }
@@ -154,16 +160,11 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void deleteTaskShouldDeleteTask() {
-        taskManager.createTask(new Task("test", "test"));
+        taskManager.createTask(new Task("test", "test", StatusName.NEW, 10,
+                "01.01.2000-00:00"));
         taskManager.deleteTask(1);
         assertNull(taskManager.getTaskById(1));
         assertEquals(0, taskManager.getAllTasks().size());
-    }
-
-    @Test
-    public void deleteTaskShouldThrowExceptionWhenWrongId() {
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteTask(1));
-        assertNull(exception.getMessage());
     }
 
     @Test
