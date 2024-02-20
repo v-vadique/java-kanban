@@ -4,20 +4,23 @@ import com.yandex.app.history.HistoryManager;
 import com.yandex.app.model.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy, HH:mm");
     private void save() throws ManagerSaveException {
         List<String> saveString = new ArrayList<>();
-        saveString.add("id,type,name,status,description,epic");
+        saveString.add("id,type,name,status,description,duration,start,end,epic");
         try (Writer writer = new FileWriter("data.csv")) {
             for (int i = 1; i < nextId; i++) {
                 if (tasks.get(i) != null) {
                     saveString.add(tasks.get(i).toString());
                 } else if (epics.get(i) != null) {
                     saveString.add(epics.get(i).toString());
-                } else {
+                } else if (subtasks.get(i) != null) {
                     saveString.add(subtasks.get(i).toString());
                 }
             }
@@ -75,12 +78,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     private Task fromString(String[] valueArray) {
         switch (TaskTypes.valueOf(valueArray[1])) {
             case TASK:
-                return new Task(valueArray[2], valueArray[4], StatusName.valueOf(valueArray[3]));
+                return new Task(valueArray[2], valueArray[4], StatusName.valueOf(valueArray[3]),
+                        Integer.parseInt(valueArray[5]), valueArray[6]);
             case EPIC:
                 return new Epic(valueArray[2], valueArray[4]);
             case SUBTASK:
                 return new Subtask(valueArray[2], valueArray[4], StatusName.valueOf(valueArray[3]),
-                        Integer.parseInt(valueArray[5]));
+                        Integer.parseInt(valueArray[5]), valueArray[6],
+                        Integer.parseInt(valueArray[8]));
             default:
                 return null;
         }

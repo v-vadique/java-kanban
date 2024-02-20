@@ -1,15 +1,11 @@
 package com.yandex.app.service;
 
 import com.yandex.app.history.HistoryManager;
-import com.yandex.app.model.Epic;
-import com.yandex.app.model.Subtask;
-import com.yandex.app.model.Task;
-import com.yandex.app.model.StatusName;
+import com.yandex.app.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Task> tasks = new HashMap<>();
@@ -17,6 +13,8 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
     protected int nextId = 1;
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
+
 
     @Override
     public List<Task> getAllTasks() {
@@ -33,10 +31,19 @@ public class InMemoryTaskManager implements TaskManager {
         return new ArrayList<>(subtasks.values());
     }
 
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
+    }
+
     @Override
     public void deleteAllTasks() {
         for (Integer key : tasks.keySet()) {
             historyManager.remove(key);
+        }
+        for (Task task : prioritizedTasks) {
+            if (task.getType().equals("TASK")) {
+                prioritizedTasks.remove(task);
+            }
         }
         tasks.clear();
         System.out.println("Все задачи были удалены");
@@ -51,6 +58,11 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer key : subtasks.keySet()) {
             historyManager.remove(key);
         }
+        for (Task subtask : prioritizedTasks) {
+            if (subtask.getType().equals("SUBTASK")) {
+                prioritizedTasks.remove(subtask);
+            }
+        }
         subtasks.clear();
         System.out.println("Все эпики были удалены");
     }
@@ -59,6 +71,11 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteAllSubtasks() {
         for (Integer key : subtasks.keySet()) {
             historyManager.remove(key);
+        }
+        for (Task subtask : prioritizedTasks) {
+            if (subtask.getType().equals("SUBTASK")) {
+                prioritizedTasks.remove(subtask);
+            }
         }
         subtasks.clear();
         for (Integer integer : epics.keySet()) {
@@ -96,6 +113,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(nextId);
         nextId++;
         tasks.put(task.getId(), task);
+        prioritizedTasks.add(task);
         System.out.println("Задача создана. Идентификатор " + task.getId());
     }
 
@@ -112,8 +130,10 @@ public class InMemoryTaskManager implements TaskManager {
         subtask.setId(nextId);
         nextId++;
         subtasks.put(subtask.getId(), subtask);
+        prioritizedTasks.add(subtask);
         epics.get(subtask.getEpicId()).addSubtaskId(subtask.getId());
         reconsiderEpicStatus(subtask.getEpicId());
+        countEpicTime(subtask.getEpicId());
         System.out.println("Подзадача создана. Идентификатор " + subtask.getId());
     }
 
@@ -133,6 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubtask(Subtask subtask) {
         subtasks.put(subtask.getId(), subtask);
         reconsiderEpicStatus(subtask.getEpicId());
+        countEpicTime(subtask.getEpicId());
         System.out.println("Подзадача обновлена. Индентификатор " + subtask.getId());
     }
 
@@ -162,10 +183,33 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
+    private void countEpicTime(int id) {
+        LocalDateTime startTime = null;
+        LocalDateTime endTime = null;
+        Duration duration = Duration.ofMinutes(0);
+        for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
+            if (startTime == null || startTime.isAfter(subtasks.get(subtaskId).getStartTime())) {
+                startTime = subtasks.get(subtaskId).getStartTime();
+            }
+        }
+        for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
+            if (endTime == null || endTime.isBefore(subtasks.get(subtaskId).getEndTime())) {
+                endTime = subtasks.get(subtaskId).getEndTime();
+            }
+        }
+        for (Integer subtaskId : epics.get(id).getSubtaskIds()) {
+            duration = duration.plusMinutes(subtasks.get(subtaskId).getDuration().toMinutes());
+        }
+        epics.get(id).setStartTime(startTime);
+        epics.get(id).setEndTime(endTime);
+        epics.get(id).setDuration(duration);
+    }
+
     @Override
     public void deleteTask(int id) {
         historyManager.remove(id);
         tasks.remove(id);
+        prioritizedTasks.remove(tasks.get(id));
         System.out.println("Задача была удалена");
     }
 
@@ -183,8 +227,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteSubtask(int id) {
         historyManager.remove(id);
+        int epicId = subtasks.get(id).getEpicId();
+        prioritizedTasks.remove(subtasks.get(id));
         Subtask removedSubtask = subtasks.remove(id);
-        epics.get(id).deleteSubtaskId(removedSubtask.getId());
+        epics.get(epicId).deleteSubtaskId(removedSubtask.getId());
+        reconsiderEpicStatus(epicId);
+        countEpicTime(epicId);
         System.out.println("Подзадача была удалена");
     }
 

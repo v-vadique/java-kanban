@@ -40,7 +40,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return historyCopy;
     }
 
-    public Node<Task> linkLast(Task task) {
+    private Node<Task> linkLast(Task task) {
         final Node<Task> oldTail = tail;
         final Node<Task> newNode = new Node<>(oldTail, task, null);
         tail = newNode;
@@ -51,7 +51,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return newNode;
     }
 
-    public void removeNode(Node<Task> node) {
+    private void removeNode(Node<Task> node) {
         Node<Task> previousNode = node.getPreviousNode();
         Node<Task> nextNode = node.getNextNode();
         if (nextNode != null && previousNode != null) {
