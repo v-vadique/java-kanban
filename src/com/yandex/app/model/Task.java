@@ -11,9 +11,9 @@ public class Task {
     protected int id;
     protected Duration duration;
     protected LocalDateTime startTime;
-    public DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm");
+    protected DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy-HH:mm");
 
-    protected static TaskTypes type = TaskTypes.TASK;
+    protected TaskTypes type = TaskTypes.TASK;
 
     public Task(String name, String description, StatusName status, int duration, String startTime) {
         this.name = name;

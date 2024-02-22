@@ -24,6 +24,12 @@ public class Main {
         fileBackedTasksManager.getTaskById(2);
         fileBackedTasksManager.getSubtaskById(4);
         fileBackedTasksManager.getEpicById(3);
+        boolean timeIsAvailable = fileBackedTasksManager.checkForCrossings();
+        if (timeIsAvailable) {
+            System.out.println("Пересечений нет");
+        } else {
+            System.out.println("Присутствуют пересечения, необходимо скорректировать график");
+        }
 
         FileBackedTasksManager fileBackedTasksManager2 = FileBackedTasksManager.loadFromFile(file);
         System.out.println(fileBackedTasksManager2.getAllTasks());

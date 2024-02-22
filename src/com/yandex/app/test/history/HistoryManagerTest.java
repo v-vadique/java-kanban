@@ -9,10 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.yandex.app.test.UtilTestTasksCreator.*;
 
 public class HistoryManagerTest {
-    static HistoryManager historyManager;
-    static TaskManager taskManager;
+    private HistoryManager historyManager;
+    private TaskManager taskManager;
 
     @BeforeEach
     public void beforeEach() {
@@ -22,9 +23,9 @@ public class HistoryManagerTest {
 
     @Test
     public void shouldAddTask() {
-        Task task = new Task("test", "test");
+        Task task = createTestTask();
         task.setId(1);
-        Epic epic = new Epic("test", "test");
+        Epic epic = createTestEpic();
         epic.setId(2);
         historyManager.add(task);
         historyManager.add(epic);
@@ -38,9 +39,9 @@ public class HistoryManagerTest {
 
     @Test
     public void shouldRemoveTask() {
-        Task task = new Task("test", "test");
+        Task task = createTestTask();
         task.setId(1);
-        Epic epic = new Epic("test", "test");
+        Epic epic = createTestEpic();
         epic.setId(2);
         historyManager.add(task);
         historyManager.add(epic);
@@ -51,5 +52,9 @@ public class HistoryManagerTest {
     @Test
     public void removeShouldThrowExceptionWhenHistoryEmpty() {
         assertEquals(0, historyManager.getHistory().size());
+    }
+
+    private void createTaskAndEpic() {
+
     }
 }

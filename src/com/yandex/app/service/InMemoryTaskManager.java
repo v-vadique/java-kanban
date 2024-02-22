@@ -206,6 +206,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
+    public boolean checkForCrossings() {
+        for (Task task : prioritizedTasks) {
+            if (prioritizedTasks.higher(task) != null) {
+                if (task.getEndTime().isAfter(prioritizedTasks.higher(task).getStartTime())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
     public void deleteTask(int id) {
         historyManager.remove(id);
         prioritizedTasks.remove(tasks.get(id));

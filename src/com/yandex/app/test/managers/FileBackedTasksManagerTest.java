@@ -11,9 +11,10 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static com.yandex.app.test.UtilTestTasksCreator.*;
 
 public class FileBackedTasksManagerTest extends TasksManagerTest<FileBackedTasksManager> {
-    static File file;
+    private File file;
     @BeforeEach
     public void beforeEach() {
         taskManager = new FileBackedTasksManager();
@@ -29,18 +30,16 @@ public class FileBackedTasksManagerTest extends TasksManagerTest<FileBackedTasks
 
     @Test
     public void epicWithNoSubtasks() {
-        taskManager.createEpic(new Epic("test", "test"));
+        taskManager.createEpic(createTestEpic());
         TaskManager taskManagerTest = FileBackedTasksManager.loadFromFile(file);
         assertEquals(taskManager.getHistory(), taskManagerTest.getHistory());
     }
 
     @Test
     public void emptyHistory() {
-        taskManager.createTask(new Task("test", "test", StatusName.NEW,
-                10, "01.01.2000-00:00"));
-        taskManager.createTask(new Task("test", "test", StatusName.NEW,
-                10, "01.01.2000-00:00"));
-        taskManager.createEpic(new Epic("test", "test"));
+        taskManager.createTask(createTestTask());
+        taskManager.createTask(createTestTask());
+        taskManager.createEpic(createTestEpic());
         TaskManager taskManagerTest = FileBackedTasksManager.loadFromFile(file);
         assertEquals(taskManager.getHistory(), taskManagerTest.getHistory());
     }

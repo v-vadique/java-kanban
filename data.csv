@@ -1,3 +1,4 @@
 id,type,name,status,description,duration,start,end,epic
-1,EPIC,test,NEW,test,0,01.01.2000-00:00,2000-01-01T00:00,
+1,TASK,test,NEW,test,180,01.01.2024-00:00,2024-01-01T03:00,
+2,TASK,test,NEW,test,180,01.01.2024-01:00,2024-01-01T04:00,
 

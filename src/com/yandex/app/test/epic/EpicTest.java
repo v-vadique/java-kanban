@@ -6,10 +6,15 @@ import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 public class EpicTest {
-    private static TaskManager inMemoryTaskManager;
+    private TaskManager inMemoryTaskManager;
     @BeforeEach
     public void beforeEach() {
         inMemoryTaskManager = Managers.getDefault();
@@ -21,39 +26,20 @@ public class EpicTest {
         assertEquals(StatusName.NEW, inMemoryTaskManager.getEpicById(1).getStatus());
     }
 
-    @Test
-    public void shouldBeNewWhenAllSubtasksNew() {
+    @ParameterizedTest
+    @MethodSource
+    public void checkEpicReconsiderMethod(StatusName status1, StatusName status2, StatusName expected) {
         inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.NEW, 10, "01.01.2012-00:00", 1));
+                status1, 10, "01.01.2012-00:00", 1));
         inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.NEW, 10, "01.01.2012-00:00", 1));
-        assertEquals(StatusName.NEW, inMemoryTaskManager.getEpicById(1).getStatus());
+                status2, 10, "01.01.2012-00:00", 1));
+        assertEquals(expected, inMemoryTaskManager.getEpicById(1).getStatus());
     }
 
-    @Test
-    public void shouldBeDoneWhenAllSubtasksDone() {
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.DONE, 10, "01.01.2012-00:00", 1));
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.DONE, 10, "01.01.2012-00:00", 1));
-        assertEquals(StatusName.DONE, inMemoryTaskManager.getEpicById(1).getStatus());
-    }
-
-    @Test
-    public void shouldBeInProgressWhenSubtasksNewAndDone() {
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.DONE, 10, "01.01.2012-00:00", 1));
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.NEW, 10, "01.01.2012-00:00", 1));
-        assertEquals(StatusName.IN_PROGRESS, inMemoryTaskManager.getEpicById(1).getStatus());
-    }
-
-    @Test
-    public void shouldBeInProgressWhenAllSubtasksInProgress() {
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.IN_PROGRESS, 10, "01.01.2012-00:00", 1));
-        inMemoryTaskManager.createSubtask(new Subtask("testSubtask", "testSubtaskDescription",
-                StatusName.IN_PROGRESS, 10, "01.01.2012-00:00", 1));
-        assertEquals(StatusName.IN_PROGRESS, inMemoryTaskManager.getEpicById(1).getStatus());
+    static Stream<Arguments> checkEpicReconsiderMethod() {                  // спасибо за статью, полезно
+        return Stream.of(Arguments.of(StatusName.NEW, StatusName.NEW, StatusName.NEW),
+                Arguments.of(StatusName.DONE, StatusName.DONE, StatusName.DONE),
+                Arguments.of(StatusName.NEW, StatusName.DONE, StatusName.IN_PROGRESS),
+                Arguments.of(StatusName.IN_PROGRESS, StatusName.IN_PROGRESS, StatusName.IN_PROGRESS));
     }
 }

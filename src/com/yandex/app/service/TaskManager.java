@@ -40,6 +40,8 @@ public interface TaskManager {
 
     void updateSubtask(Subtask subtask);
 
+    boolean checkForCrossings();
+
     void deleteTask(int id);
 
     void deleteEpic(int id);
