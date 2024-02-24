@@ -2,6 +2,7 @@ package com.yandex.app.test.managers;
 
 import com.yandex.app.model.*;
 import com.yandex.app.service.TaskManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -122,7 +123,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createTaskShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createTask(null));
-        assertNull(exception.getMessage());
+        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -135,7 +136,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createEpicShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createEpic(null));
-        assertNull(exception.getMessage());
+        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -154,7 +155,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createSubtaskShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createSubtask(null));
-        assertNull(exception.getMessage());
+        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -175,8 +176,8 @@ abstract class TasksManagerTest<T extends TaskManager> {
 
     @Test
     public void deleteEpicShouldThrowExceptionWhenWrongId() {
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteEpic(1));
-        assertNull(exception.getMessage());
+        final NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteEpic(1));
+        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -191,7 +192,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void deleteSubtaskShouldThrowExceptionWhenWrongId() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteSubtask(1));
-        assertNull(exception.getMessage());
+        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -212,7 +213,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
     public void getAllEpicSubtasksShouldThrowExceptionWhenWrongId() {
         NullPointerException exception = assertThrows(NullPointerException.class, () ->
                 taskManager.getAllEpicSubtasks(2));
-        assertNull(exception.getMessage());
+        assertEquals("null", exception.getMessage());
     }
 
     @ParameterizedTest
@@ -224,7 +225,7 @@ abstract class TasksManagerTest<T extends TaskManager> {
         assertEquals(expected, isTimeAvailable);
     }
 
-    static Stream<Arguments> checkForCrossingsTest() {
+    private static Stream<Arguments> checkForCrossingsTest() {
         return Stream.of(Arguments.of("01.01.2024-00:00", "01.02.2024-00:00", true),
                 Arguments.of("01.01.2024-00:00", "01.01.2024-01:00", false));
     }

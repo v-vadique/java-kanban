@@ -36,7 +36,7 @@ public class EpicTest {
         assertEquals(expected, inMemoryTaskManager.getEpicById(1).getStatus());
     }
 
-    static Stream<Arguments> checkEpicReconsiderMethod() {                  // спасибо за статью, полезно
+    private static Stream<Arguments> checkEpicReconsiderMethod() {                  // спасибо за статью, полезно
         return Stream.of(Arguments.of(StatusName.NEW, StatusName.NEW, StatusName.NEW),
                 Arguments.of(StatusName.DONE, StatusName.DONE, StatusName.DONE),
                 Arguments.of(StatusName.NEW, StatusName.DONE, StatusName.IN_PROGRESS),

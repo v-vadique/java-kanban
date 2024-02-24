@@ -53,8 +53,4 @@ public class HistoryManagerTest {
     public void removeShouldThrowExceptionWhenHistoryEmpty() {
         assertEquals(0, historyManager.getHistory().size());
     }
-
-    private void createTaskAndEpic() {
-
-    }
 }
