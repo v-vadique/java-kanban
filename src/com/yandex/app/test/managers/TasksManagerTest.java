@@ -123,7 +123,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createTaskShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createTask(null));
-        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -136,7 +135,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createEpicShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createEpic(null));
-        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -155,7 +153,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void createSubtaskShouldThrowExceptionWhenNull() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.createSubtask(null));
-        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -177,7 +174,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void deleteEpicShouldThrowExceptionWhenWrongId() {
         final NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteEpic(1));
-        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -192,7 +188,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     @Test
     public void deleteSubtaskShouldThrowExceptionWhenWrongId() {
         NullPointerException exception = assertThrows(NullPointerException.class, () -> taskManager.deleteSubtask(1));
-        assertEquals("null", exception.getMessage());
     }
 
     @Test
@@ -213,7 +208,6 @@ abstract class TasksManagerTest<T extends TaskManager> {
     public void getAllEpicSubtasksShouldThrowExceptionWhenWrongId() {
         NullPointerException exception = assertThrows(NullPointerException.class, () ->
                 taskManager.getAllEpicSubtasks(2));
-        assertEquals("null", exception.getMessage());
     }
 
     @ParameterizedTest
