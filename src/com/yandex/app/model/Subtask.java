@@ -23,7 +23,7 @@ public class Subtask extends Task {
     @Override
     public String toString() {
         return getId() + "," + getType() + "," + getName() + "," + getStatus() + "," + getDescription() + "," +
-                getDuration().toMinutes() + "," + getStartTime().format(formatter) + "," + getEndTime() +
+                getDuration().toMinutes() + "," + getStartTime().format(FORMATTER) + "," + getEndTime() +
                 "," + getEpicId();
     }
 }

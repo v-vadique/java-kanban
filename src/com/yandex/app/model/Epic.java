@@ -13,8 +13,8 @@ public class Epic extends Task {
     public Epic(String name, String description) {
         super(name, description);
         this.duration = Duration.ofSeconds(0);
-        this.startTime = LocalDateTime.parse("01.01.2000-00:00", formatter);
-        this.endTime = LocalDateTime.parse("01.01.2000-00:00", formatter);
+        this.startTime = LocalDateTime.parse("01.01.2000-00:00", FORMATTER);
+        this.endTime = LocalDateTime.parse("01.01.2000-00:00", FORMATTER);
     }
 
     public void setEndTime(LocalDateTime endTime) {
@@ -46,6 +46,6 @@ public class Epic extends Task {
     @Override
     public String toString() {
         return getId() + "," + getType() + "," + getName() + "," + getStatus() + "," + getDescription() + ","
-                + getDuration().toMinutes() + "," + getStartTime().format(formatter) + "," + getEndTime() + ",";
+                + getDuration().toMinutes() + "," + getStartTime().format(FORMATTER) + "," + getEndTime() + ",";
     }
 }
