@@ -34,10 +34,7 @@ public class SubtasksHandlerTest {
     @BeforeEach
     public void beforeEach() throws IOException {
         httpTaskServer = new HttpTaskServer(manager);
-        gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime .class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration .class, new DurationAdapter())
-                .create();
+        gson = HttpTaskServer.intializeGson();
         manager.createEpic(new Epic("имя1", "описание1"));
         manager.createSubtask(new Subtask("имя2", "описание2", StatusName.NEW,
                 600, "31.12.2023-17:00", 1));

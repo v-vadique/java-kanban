@@ -29,10 +29,7 @@ public class HistoryHandlerTest {
     public void historyTest() throws IOException, InterruptedException {
         TaskManager manager = Managers.getDefault();
         HttpTaskServer httpTaskServer = new HttpTaskServer(manager);
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration.class, new DurationAdapter())
-                .create();
+        Gson gson = HttpTaskServer.intializeGson();
         manager.createTask(new Task("имя1", "описание1", StatusName.NEW, 10,
                 "10.01.2024-12:00"));
         manager.createTask(new Task("имя2", "описание2", StatusName.DONE, 180,

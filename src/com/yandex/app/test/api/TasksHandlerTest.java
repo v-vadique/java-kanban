@@ -32,10 +32,7 @@ public class TasksHandlerTest {
     @BeforeEach
     public void beforeEach() throws IOException {
         httpTaskServer = new HttpTaskServer(manager);
-        gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime .class, new LocalDateTimeAdapter())
-                .registerTypeAdapter(Duration .class, new DurationAdapter())
-                .create();
+        gson = HttpTaskServer.intializeGson();
         manager.deleteAllTasks();
         manager.deleteAllEpics();
         manager.deleteAllSubtasks();

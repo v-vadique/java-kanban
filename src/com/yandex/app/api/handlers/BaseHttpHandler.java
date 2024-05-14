@@ -1,9 +1,12 @@
-package com.yandex.app.api;
+package com.yandex.app.api.handlers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.yandex.app.api.DurationAdapter;
+import com.yandex.app.api.LocalDateTimeAdapter;
+import com.yandex.app.service.TaskManager;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -11,14 +14,16 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class BaseHttpHandler implements HttpHandler {
-    Gson gson = new GsonBuilder()
+public abstract class BaseHttpHandler implements HttpHandler {
+    protected final static String DEFAULT_CHARSET = "UTF-8";
+    protected final Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
             .registerTypeAdapter(Duration.class, new DurationAdapter())
-            .create();
+            .create();;
+    protected final TaskManager manager;
 
-    @Override
-    public void handle(HttpExchange exchange) throws IOException {
+    public BaseHttpHandler(TaskManager manager) {
+        this.manager = manager;
     }
 
     protected void sendText(HttpExchange exchange, String text) throws IOException {
